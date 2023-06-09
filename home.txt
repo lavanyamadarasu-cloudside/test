@@ -1,0 +1,171 @@
+export class User{
+    id: number = 0
+    firstName: string = ''
+    lastName: string = ''
+    email: string = ''
+}
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { User } from './User';
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  constructor(private http: HttpClient) { }
+  
+  baseUrl: string = 'http://localhost:3000/users'
+  
+  // get all users
+  getUsers() {
+    return this.http.get<User[]>(this.baseUrl)
+  }
+
+  // get user by id
+  getUserById(id: number) {
+    return this.http.get<User[]>(this.baseUrl + '/' + id)
+  }
+
+  // create user
+  createUser(user: User) {
+    return this.http.post(this.baseUrl, user)
+  }
+
+  // modify user
+  updateUser(user: User) {
+    return this.http.put(this.baseUrl + '/' + user.id, user)
+  }
+
+  // delete user
+  deleteUser(id: number) {
+    return this.http.delete(this.baseUrl + '/' + id)
+  }
+  
+}
+
+
+
+
+import { TestBed } from '@angular/core/testing';
+
+import { UserService } from './user.service';
+
+describe('UserService', () => {
+  let service: UserService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(UserService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { ListUserComponent } from './list-user/list-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    LoginComponent,
+    AddUserComponent,
+    ListUserComponent,
+    EditUserComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AddUserComponent } from './add-user/add-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { HomeComponent } from './home/home.component';
+import { ListUserComponent } from './list-user/list-user.component';
+import { LoginComponent } from './login/login.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'add-user', component: AddUserComponent },
+  { path: 'list-user', component: ListUserComponent },
+  { path: 'edit-user', component: EditUserComponent },
+  { path: '**', component: HomeComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!-- Required Meta Tags-->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="User Management!" />
+  <base href="/">
+  
+  <!-- Title -->
+  <title>User Management</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+</head>
+<body>
+
+  <app-root></app-root>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
